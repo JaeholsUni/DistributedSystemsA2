@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import javax.swing.*;
 
 public class whiteboard extends JPanel {
@@ -22,6 +23,7 @@ public class whiteboard extends JPanel {
 
     public whiteboard() {
         tempPoints = new ArrayList<>();
+        elements = new ArrayList<>();
         drawing = false;
 
         // Create a button to reset the list of points
@@ -31,6 +33,7 @@ public class whiteboard extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // Clear the list of points and repaint the panel
                 tempPoints.clear();
+                elements.clear();
                 repaint();
             }
         });
@@ -52,6 +55,11 @@ public class whiteboard extends JPanel {
                     // Stop drawing a line
                     tempPoints.add(evt.getPoint());
                     drawing = false;
+                    ArrayList<Point> newPoints = new ArrayList<>();
+                    newPoints.addAll(tempPoints);
+                    newStroke(newPoints);
+                    tempPoints.clear();
+                    repaint();
                 }
             }
         });
@@ -76,15 +84,32 @@ public class whiteboard extends JPanel {
         // Enable anti-aliasing to smooth out the line
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Set the color and thickness of the line
-        g2d.setColor(Color.BLUE);
-        g2d.setStroke(new BasicStroke(3));
+        renderElements(g2d);
+        renderLine(g2d, Color.BLUE, 3, tempPoints);
+    }
+
+    private void renderLine(Graphics2D g2d, Color color, float thickness, ArrayList<Point> pointSet) {
+        g2d.setColor(color);
+        g2d.setStroke(new BasicStroke(thickness));
 
         // Draw the line using the list of points
-        for (int i = 0; i < tempPoints.size() - 1; i++) {
-            Point p1 = tempPoints.get(i);
-            Point p2 = tempPoints.get(i + 1);
+        for (int i = 0; i < pointSet.size() - 1; i++) {
+            Point p1 = pointSet.get(i);
+            Point p2 = pointSet.get(i + 1);
             g2d.draw(new Line2D.Double(p1, p2));
         }
+    }
+
+    private void renderElements(Graphics2D g2d) {
+        for (int i=0; i < elements.size(); i++) {
+            renderElement el = elements.get(i);
+            if (el.getType().equals(renderTypes.STROKE)) {
+                renderLine(g2d, el.getColor(), el.getStrokeWidth(), el.getPoints());
+            }
+        }
+    }
+
+    private void newStroke(ArrayList<Point> points) {
+        elements.add(new renderElement(points, Color.PINK, 3, renderTypes.STROKE));
     }
 }
