@@ -1,6 +1,8 @@
 package com.unimelb;
 
 import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class Main {
 
@@ -12,7 +14,11 @@ public class Main {
 
         try {
             IState state = new StateServer();
-            Naming.rebind("rmi://" + hostname + "/" + serviceName, state);
+            LocateRegistry.createRegistry(4444);
+            Registry registry = LocateRegistry.getRegistry(hostname,4444);
+            registry.bind(serviceName, state);
+
+            //Naming.rebind("rmi://" + hostname + "/" + serviceName, state);
             System.out.println("RMI ready to go");
         } catch (Exception e) {
             e.printStackTrace();
