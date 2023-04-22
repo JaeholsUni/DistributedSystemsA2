@@ -20,6 +20,9 @@ public class Main {
 
             //IState state = (IState) Naming.lookup("rmi://" + hostname + "/" + serviceName);
             System.out.println(state.helloWorld(who));
+            System.out.println(state.getMyState());
+            state.setMyState(5);
+            System.out.println(state.getMyState());
         } catch (Exception e) {
             e.printStackTrace();
         }
