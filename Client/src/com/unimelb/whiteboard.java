@@ -14,12 +14,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.*;
 
-public class whiteboard extends JPanel {
+public class whiteboard extends JPanel implements ActionListener {
+
+    private static final int TIME_DELAY = 16;
 
     private ArrayList<Point> tempPoints;
     private IWhiteboardState localState;
     private JButton resetButton;
     private boolean drawing;
+    private Timer timer;
 
     public whiteboard(IWhiteboardState whiteboardState) {
         tempPoints = new ArrayList<>();
@@ -65,7 +68,7 @@ public class whiteboard extends JPanel {
                     newPoints.addAll(tempPoints);
                     newStroke(newPoints);
                     tempPoints.clear();
-                    repaint();
+
                 }
             }
         });
@@ -76,10 +79,18 @@ public class whiteboard extends JPanel {
                 if (drawing) {
                     // Draw a line segment between the last point and the current mouse position
                     tempPoints.add(evt.getPoint());
-                    repaint();
+
                 }
             }
         });
+
+        timer = new Timer(TIME_DELAY, this);
+        timer.start();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
     }
 
     @Override
