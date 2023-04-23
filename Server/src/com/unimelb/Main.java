@@ -1,6 +1,5 @@
 package com.unimelb;
 
-import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -13,7 +12,7 @@ public class Main {
         String serviceName = "StateService";
 
         try {
-            IState state = new StateServer();
+            IWhiteboardState state = new WhiteboardStateServer();
             LocateRegistry.createRegistry(4444);
             Registry registry = LocateRegistry.getRegistry(hostname,4444);
             registry.bind(serviceName, state);
