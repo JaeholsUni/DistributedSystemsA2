@@ -14,17 +14,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.*;
 
-public class whiteboard extends JPanel {
+public class whiteboard extends JPanel implements ActionListener {
+
+    private static final int TIME_DELAY = 16;
 
     private ArrayList<Point> tempPoints;
-    private ArrayList<renderElement> elements;
+    private IWhiteboardState localState;
     private JButton resetButton;
     private boolean drawing;
+    private Timer timer;
 
-    public whiteboard() {
+    public whiteboard(IWhiteboardState whiteboardState) {
         tempPoints = new ArrayList<>();
-        elements = new ArrayList<>();
         drawing = false;
+        this.localState = whiteboardState;
 
         // Create a button to reset the list of points
         resetButton = new JButton("Reset Points");
@@ -33,7 +36,13 @@ public class whiteboard extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // Clear the list of points and repaint the panel
                 tempPoints.clear();
-                elements.clear();
+
+                try {
+                    localState.clearElements();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+
                 repaint();
             }
         });
@@ -59,7 +68,7 @@ public class whiteboard extends JPanel {
                     newPoints.addAll(tempPoints);
                     newStroke(newPoints);
                     tempPoints.clear();
-                    repaint();
+
                 }
             }
         });
@@ -70,10 +79,18 @@ public class whiteboard extends JPanel {
                 if (drawing) {
                     // Draw a line segment between the last point and the current mouse position
                     tempPoints.add(evt.getPoint());
-                    repaint();
+
                 }
             }
         });
+
+        timer = new Timer(TIME_DELAY, this);
+        timer.start();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
     }
 
     @Override
@@ -84,7 +101,12 @@ public class whiteboard extends JPanel {
         // Enable anti-aliasing to smooth out the line
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        renderElements(g2d);
+        try {
+            renderElements(g2d, localState.getElementArray());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
         renderLine(g2d, Color.BLUE, 3, tempPoints);
     }
 
@@ -100,16 +122,27 @@ public class whiteboard extends JPanel {
         }
     }
 
-    private void renderElements(Graphics2D g2d) {
-        for (int i=0; i < elements.size(); i++) {
-            renderElement el = elements.get(i);
-            if (el.getType().equals(renderTypes.STROKE)) {
-                renderLine(g2d, el.getColor(), el.getStrokeWidth(), el.getPoints());
+    private void renderElements(Graphics2D g2d, ArrayList<renderElement> elements) {
+
+        try {
+            for (int i=0; i < elements.size(); i++) {
+                renderElement el = elements.get(i);
+                if (el.getType().equals(renderTypes.STROKE)) {
+                    renderLine(g2d, el.getColor(), el.getStrokeWidth(), el.getPoints());
+                }
             }
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
+
+
     }
 
     private void newStroke(ArrayList<Point> points) {
-        elements.add(new renderElement(points, Color.PINK, 3, renderTypes.STROKE));
+        try {
+            localState.addElement(new renderElement(points, Color.PINK, 3, renderTypes.STROKE));
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }
