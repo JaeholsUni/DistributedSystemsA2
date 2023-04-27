@@ -1,10 +1,5 @@
 package com.unimelb;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,10 +16,19 @@ public class whiteboard extends JPanel {
     private JButton resetButton;
     private boolean drawing;
 
+    private Timer timer;
+    private colourDropdownPanel colours;
+
     public whiteboard() {
         tempPoints = new ArrayList<>();
         elements = new ArrayList<>();
         drawing = false;
+
+        setBackground(Color.WHITE);
+        setLayout(new BorderLayout());
+
+        this.colours = new colourDropdownPanel();
+        add(colours, BorderLayout.NORTH);
 
         // Create a button to reset the list of points
         resetButton = new JButton("Reset Points");
@@ -37,8 +41,17 @@ public class whiteboard extends JPanel {
                 repaint();
             }
         });
-        add(resetButton);
+        add(resetButton, BorderLayout.SOUTH);
 
+
+
+
+
+
+
+
+
+        // Drawing logic
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
@@ -57,7 +70,7 @@ public class whiteboard extends JPanel {
                     drawing = false;
                     ArrayList<Point> newPoints = new ArrayList<>();
                     newPoints.addAll(tempPoints);
-                    newStroke(newPoints);
+                    newStroke(newPoints, colours.getColour());
                     tempPoints.clear();
                     repaint();
                 }
@@ -109,7 +122,12 @@ public class whiteboard extends JPanel {
         }
     }
 
-    private void newStroke(ArrayList<Point> points) {
-        elements.add(new renderElement(points, Color.PINK, 3, renderTypes.STROKE));
+
+    private void newStroke(ArrayList<Point> points, Color colour) {
+        try {
+            localState.addElement(new renderElement(points, colour, 3, renderTypes.STROKE));
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }
