@@ -71,6 +71,16 @@ public class ellipse implements IRenderable {
         g2d.draw(new Ellipse2D.Double(topLeft.getX(), topLeft.getY(), width, height));
     }
 
+    @Override
+    public void addCharacter(Character c) {
+
+    }
+
+    @Override
+    public void removeCharacter() {
+
+    }
+
     private Point findTopLeft(int point0x, int point0y, int point1x, int point1y) {
         if ((point0x < point1x) && (point0y < point1y)) {
             return points.get(0);

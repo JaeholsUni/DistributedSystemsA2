@@ -65,14 +65,28 @@ public class rectangle implements IRenderable {
         Double width = Math.abs(points.get(0).getX() - points.get(1).getX());
         Double height = Math.abs(points.get(0).getY() - points.get(1).getY());
 
-        g2d.draw(new Rectangle2D.Double(points.get(findTopLeft()).getX(), points.get(findTopLeft()).getY(), width, height));
+        Point topLeft = findTopLeft(points.get(0).x, points.get(0).y, points.get(1).x, points.get(1).y);
+
+        g2d.draw(new Rectangle2D.Double(topLeft.getX(), topLeft.getY(), width, height));
     }
 
-    private int findTopLeft() {
-        if ((points.get(0).getX() < points.get(1).getX()) || (points.get(0).getY() > points.get(1).getY())) {
-            return 0;
+    @Override
+    public void addCharacter(Character c) {
+    }
+
+    @Override
+    public void removeCharacter() {
+    }
+
+    private Point findTopLeft(int point0x, int point0y, int point1x, int point1y) {
+        if ((point0x < point1x) && (point0y < point1y)) {
+            return points.get(0);
+        } else if((point0x > point1x) && (point0y > point1y)) {
+            return points.get(1);
+        } else if((point0x < point1x) && (point0y > point1y)) {
+            return new Point(point0x, point1y);
         } else {
-            return 1;
+            return new Point(point1x, point0y);
         }
     }
 }

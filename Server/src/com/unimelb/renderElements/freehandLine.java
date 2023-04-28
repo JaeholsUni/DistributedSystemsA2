@@ -67,4 +67,14 @@ public class freehandLine implements IRenderable {
             g2d.draw(new Line2D.Double(p1, p2));
         }
     }
+
+    @Override
+    public void addCharacter(Character c) {
+
+    }
+
+    @Override
+    public void removeCharacter() {
+
+    }
 }

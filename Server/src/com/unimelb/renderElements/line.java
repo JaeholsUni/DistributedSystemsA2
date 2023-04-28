@@ -63,12 +63,19 @@ public class line implements IRenderable {
         g2d.setColor(this.getColor());
         g2d.setStroke(new BasicStroke(this.getStrokeWidth()));
 
-        ArrayList<Point> pointSet = this.getPoints();
 
-        for (int i = 0; i < pointSet.size() - 1; i++) {
-            Point p1 = pointSet.get(i);
-            Point p2 = pointSet.get(i + 1);
-            g2d.draw(new Line2D.Double(p1, p2));
-        }
+        Point p1 = points.get(0);
+        Point p2 = points.get(1);
+        g2d.draw(new Line2D.Double(p1, p2));
+    }
+
+    @Override
+    public void addCharacter(Character c) {
+
+    }
+
+    @Override
+    public void removeCharacter() {
+
     }
 }

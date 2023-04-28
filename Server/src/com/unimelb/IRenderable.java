@@ -19,4 +19,7 @@ public interface IRenderable extends Serializable {
     public renderTypes getType();
 
     public abstract void renderSelf(Graphics2D g2d);
+
+    public void addCharacter(Character c);
+    public void removeCharacter();
 }

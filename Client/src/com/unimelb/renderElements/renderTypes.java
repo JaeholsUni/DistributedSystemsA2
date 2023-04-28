@@ -7,5 +7,6 @@ public enum renderTypes {
     ELLIPSE,
     RECTANGLE,
     SQUARE,
+    TEXT,
     STAR
 }

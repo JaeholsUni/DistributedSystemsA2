@@ -2,10 +2,7 @@ package com.unimelb;
 import com.unimelb.renderElements.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import javax.swing.*;
@@ -20,6 +17,7 @@ public class whiteboard extends JPanel implements ActionListener {
     private IWhiteboardState localState;
     private JButton resetButton;
     private boolean drawing;
+    private boolean typing;
     private Timer timer;
 
     private colourDropdownPanel colours;
@@ -28,7 +26,9 @@ public class whiteboard extends JPanel implements ActionListener {
 
     public whiteboard(IWhiteboardState whiteboardState) {
         drawing = false;
+        typing = false;
         this.localState = whiteboardState;
+        this.setFocusable(true);
 
         setBackground(Color.WHITE);
         setLayout(new BorderLayout());
@@ -45,48 +45,51 @@ public class whiteboard extends JPanel implements ActionListener {
 
         // Create a button to reset the list of points
         resetButton = new JButton("Reset Points");
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Clear the list of points and repaint the panel
-
-                try {
-                    localState.clearElements();
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-
-                repaint();
+        resetButton.addActionListener(e -> {
+            try {
+                localState.clearElements();
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
+
+            repaint();
         });
         add(resetButton, BorderLayout.SOUTH);
 
 
-        // Drawing logic
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
+                requestFocusInWindow();
                 if (evt.getButton() == MouseEvent.BUTTON1) {
-                    // Start drawing a line
-                    switch (drawTypes.getSelectedType()) {
-                        case "Freehand":
-                            tempDrawingItem = new freehandLine(new ArrayList<>(), colours.getColour(), 3, STROKE);
-                            break;
-                        case "Rectangle":
-                            tempDrawingItem = new rectangle(new ArrayList<>(), colours.getColour(), 3, RECTANGLE);
-                            break;
-                        case "Ellipse":
-                            tempDrawingItem = new ellipse(new ArrayList<>(), colours.getColour(), 3, ELLIPSE);
-                            break;
-                        case "Square":
-                            tempDrawingItem = new square(new ArrayList<>(), colours.getColour(), 3, SQUARE);
-                            break;
-                        case "Circle":
-                            tempDrawingItem = new circle(new ArrayList<>(), colours.getColour(), 3, CIRCLE);
-                            break;
-                        case "Line":
-                            tempDrawingItem = new line(new ArrayList<>(), colours.getColour(), 3, LINE);
-                            break;
+                    if (!typing) {
+                        // Start drawing a line
+                        switch (drawTypes.getSelectedType()) {
+                            case "Freehand":
+                                tempDrawingItem = new freehandLine(new ArrayList<>(), colours.getColour(), 3, STROKE);
+                                break;
+                            case "Rectangle":
+                                tempDrawingItem = new rectangle(new ArrayList<>(), colours.getColour(), 3, RECTANGLE);
+                                break;
+                            case "Ellipse":
+                                tempDrawingItem = new ellipse(new ArrayList<>(), colours.getColour(), 3, ELLIPSE);
+                                break;
+                            case "Square":
+                                tempDrawingItem = new square(new ArrayList<>(), colours.getColour(), 3, SQUARE);
+                                break;
+                            case "Circle":
+                                tempDrawingItem = new circle(new ArrayList<>(), colours.getColour(), 3, CIRCLE);
+                                break;
+                            case "Line":
+                                tempDrawingItem = new line(new ArrayList<>(), colours.getColour(), 3, LINE);
+                                break;
+                            case "Text":
+                                tempDrawingItem = new textRender(new ArrayList<>(), colours.getColour(), 3, TEXT);
+                                typing = true;
+                                break;
+                        }
+                    } else {
+                        tempDrawingItem.updateDrawing(evt.getPoint());
                     }
                     tempDrawingItem.updateDrawing(evt.getPoint());
                     drawing = true;
@@ -99,8 +102,10 @@ public class whiteboard extends JPanel implements ActionListener {
                     tempDrawingItem.updateDrawing(evt.getPoint());
                     drawing = false;
 
-                    addRenderElementToRemote(tempDrawingItem);
-                    tempDrawingItem = null;
+                    if (!typing) {
+                        addRenderElementToRemote(tempDrawingItem);
+                        tempDrawingItem = null;
+                    }
                 }
             }
         });
@@ -114,12 +119,38 @@ public class whiteboard extends JPanel implements ActionListener {
             }
         });
 
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key recorded");
+                if (typing) {
+                    int keyCode = e.getKeyCode();
+                    if (keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z) {
+                        char c = (char) (keyCode + (e.isShiftDown() ? 0 : 32));
+                        tempDrawingItem.addCharacter(c);
+                    } else if (keyCode == KeyEvent.VK_SPACE) {
+                        tempDrawingItem.addCharacter(' ');
+                    } else if (keyCode == KeyEvent.VK_BACK_SPACE) {
+                        tempDrawingItem.removeCharacter();
+                    } else if (keyCode == KeyEvent.VK_ENTER) {
+                        typing = false;
+                        addRenderElementToRemote(tempDrawingItem);
+                        tempDrawingItem = null;
+                    }
+                }
+            }
+        });
+
         timer = new Timer(TIME_DELAY, this);
         timer.start();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (typing && !drawTypes.getSelectedType().equals("Text")) {
+            typing = false;
+            tempDrawingItem = null;
+        }
         repaint();
     }
 
@@ -128,7 +159,6 @@ public class whiteboard extends JPanel implements ActionListener {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        // Enable anti-aliasing to smooth out the line
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         try {
@@ -151,8 +181,6 @@ public class whiteboard extends JPanel implements ActionListener {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-
-
     }
 
     private void addRenderElementToRemote(IRenderable renderable) {
@@ -175,6 +203,9 @@ public class whiteboard extends JPanel implements ActionListener {
                     break;
                 case LINE:
                     localState.addElement(new line(renderable));
+                    break;
+                case TEXT:
+                    localState.addElement(new textRender((textRender) renderable));
                     break;
             }
         } catch (Exception e) {

@@ -3,28 +3,29 @@ package com.unimelb.renderElements;
 import com.unimelb.IRenderable;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-public class line implements IRenderable {
-
+public class textRender implements IRenderable {
     private ArrayList<Point> points;
     private Color color;
     private int strokeWidth;
     private renderTypes type;
+    private String textString;
 
-    public line(ArrayList<Point> points, Color color, int strokeWidth, renderTypes type) {
+    public textRender(ArrayList<Point> points, Color color, int strokeWidth, renderTypes type) {
         this.points = points;
         this.color = color;
         this.strokeWidth = strokeWidth;
         this.type = type;
+        this.textString = new String();
     }
 
-    public line(IRenderable line) {
-        this.points = line.getPoints();
-        this.color = line.getColor();
-        this.strokeWidth = line.getStrokeWidth();
-        this.type = line.getType();
+    public textRender(textRender text) {
+        this.points = text.points;
+        this.color = text.color;
+        this.strokeWidth = text.strokeWidth;
+        this.type = text.type;
+        this.textString = text.textString;
     }
 
     @Override
@@ -34,11 +35,10 @@ public class line implements IRenderable {
 
     @Override
     public void updateDrawing(Point newPoint) {
-        if (points.isEmpty()){
-            points.add(newPoint);
+        if (points.isEmpty()) {
             points.add(newPoint);
         } else {
-            points.remove(1);
+            points.remove(0);
             points.add(newPoint);
         }
     }
@@ -59,23 +59,21 @@ public class line implements IRenderable {
     }
 
     @Override
-    public void renderSelf(Graphics2D g2d) {
-        g2d.setColor(this.getColor());
-        g2d.setStroke(new BasicStroke(this.getStrokeWidth()));
-
-
-        Point p1 = points.get(0);
-        Point p2 = points.get(1);
-        g2d.draw(new Line2D.Double(p1, p2));
-    }
-
-    @Override
     public void addCharacter(Character c) {
-
+        textString += c;
     }
 
     @Override
     public void removeCharacter() {
+        if (textString.length() > 0) {
+            textString = textString.substring(0, textString.length() - 1);
+        }
+    }
 
+    @Override
+    public void renderSelf(Graphics2D g2d) {
+        g2d.setColor(this.getColor());
+
+        g2d.drawString("Test String", points.get(0).x, points.get(0).y);
     }
 }
