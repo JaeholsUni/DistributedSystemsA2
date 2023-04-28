@@ -1,5 +1,7 @@
 package com.unimelb;
 
+import com.unimelb.renderElements.renderTypes;
+
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;

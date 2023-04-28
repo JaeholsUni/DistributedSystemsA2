@@ -1,8 +1,9 @@
-package com.unimelb;
+package com.unimelb.renderElements;
+
+import com.unimelb.IRenderable;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class freehandLine implements IRenderable {

@@ -1,17 +1,18 @@
 package com.unimelb;
+import com.unimelb.renderElements.freehandLine;
+import com.unimelb.renderElements.rectangle;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Objects;
 import javax.swing.*;
 
-import static com.unimelb.renderTypes.RECTANGLE;
-import static com.unimelb.renderTypes.STROKE;
+import static com.unimelb.renderElements.renderTypes.RECTANGLE;
+import static com.unimelb.renderElements.renderTypes.STROKE;
 
 public class whiteboard extends JPanel implements ActionListener {
 

@@ -1,4 +1,4 @@
-package com.unimelb;
+package com.unimelb.renderElements;
 
 public enum renderTypes {
     STROKE,
