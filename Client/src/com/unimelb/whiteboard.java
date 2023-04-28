@@ -1,4 +1,5 @@
 package com.unimelb;
+import com.unimelb.renderElements.ellipse;
 import com.unimelb.renderElements.freehandLine;
 import com.unimelb.renderElements.rectangle;
 
@@ -11,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import javax.swing.*;
 
-import static com.unimelb.renderElements.renderTypes.RECTANGLE;
-import static com.unimelb.renderElements.renderTypes.STROKE;
+import static com.unimelb.renderElements.renderTypes.*;
 
 public class whiteboard extends JPanel implements ActionListener {
 
@@ -79,6 +79,10 @@ public class whiteboard extends JPanel implements ActionListener {
                             tempDrawingItem = new rectangle(new ArrayList<>(), colours.getColour(), 3, RECTANGLE);
                             tempDrawingItem.updateDrawing(evt.getPoint());
                             break;
+                        case "Ellipse":
+                            tempDrawingItem = new ellipse(new ArrayList<>(), colours.getColour(), 3, ELLIPSE);
+                            tempDrawingItem.updateDrawing(evt.getPoint());
+                            break;
                     }
                     drawing = true;
                 }
@@ -87,7 +91,6 @@ public class whiteboard extends JPanel implements ActionListener {
             @Override
             public void mouseReleased(MouseEvent evt) {
                 if (evt.getButton() == MouseEvent.BUTTON1) {
-                    // Stop drawing a line
                     tempDrawingItem.updateDrawing(evt.getPoint());
                     drawing = false;
 
@@ -101,7 +104,6 @@ public class whiteboard extends JPanel implements ActionListener {
             @Override
             public void mouseDragged(MouseEvent evt) {
                 if (drawing) {
-                    // Draw a line segment between the last point and the current mouse position
                     tempDrawingItem.updateDrawing(evt.getPoint());
                 }
             }
@@ -156,6 +158,9 @@ public class whiteboard extends JPanel implements ActionListener {
                     break;
                 case RECTANGLE:
                     localState.addElement(new rectangle(renderable));
+                    break;
+                case ELLIPSE:
+                    localState.addElement(new ellipse(renderable));
                     break;
             }
         } catch (Exception e) {

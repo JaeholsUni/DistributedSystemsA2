@@ -3,7 +3,7 @@ package com.unimelb.renderElements;
 public enum renderTypes {
     STROKE,
     CIRCLE,
-    OVAL,
+    ELLIPSE,
     RECTANGLE,
     STAR
 }

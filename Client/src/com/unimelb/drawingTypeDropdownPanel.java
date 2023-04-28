@@ -3,7 +3,7 @@ package com.unimelb;
 import javax.swing.*;
 
 public class drawingTypeDropdownPanel extends JPanel {
-    private String[] types = {"Freehand", "Line", "Circle", "Rectangle", "Oval", "Star", "Text"};
+    private String[] types = {"Freehand", "Line", "Circle", "Rectangle", "Ellipse", "Star", "Text"};
     private JComboBox<String> drawingTypeDropdown;
 
     public drawingTypeDropdownPanel() {

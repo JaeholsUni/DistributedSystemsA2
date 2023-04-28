@@ -4,7 +4,7 @@ public enum renderTypes {
     STROKE,
     LINE,
     CIRCLE,
-    OVAL,
+    ELLIPSE,
     RECTANGLE,
     STAR
 }
