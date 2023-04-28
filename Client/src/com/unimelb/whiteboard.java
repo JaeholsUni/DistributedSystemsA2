@@ -84,6 +84,9 @@ public class whiteboard extends JPanel implements ActionListener {
                         case "Circle":
                             tempDrawingItem = new circle(new ArrayList<>(), colours.getColour(), 3, CIRCLE);
                             break;
+                        case "Line":
+                            tempDrawingItem = new line(new ArrayList<>(), colours.getColour(), 3, LINE);
+                            break;
                     }
                     tempDrawingItem.updateDrawing(evt.getPoint());
                     drawing = true;
@@ -169,6 +172,9 @@ public class whiteboard extends JPanel implements ActionListener {
                     break;
                 case CIRCLE:
                     localState.addElement(new circle(renderable));
+                    break;
+                case LINE:
+                    localState.addElement(new line(renderable));
                     break;
             }
         } catch (Exception e) {
