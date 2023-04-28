@@ -7,13 +7,16 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import javax.swing.*;
+
+import static com.unimelb.renderTypes.STROKE;
 
 public class whiteboard extends JPanel implements ActionListener {
 
     private static final int TIME_DELAY = 16;
 
-    private ArrayList<Point> tempPoints;
+    private IRenderable tempDrawingItem;
     private IWhiteboardState localState;
     private JButton resetButton;
     private boolean drawing;
@@ -24,7 +27,6 @@ public class whiteboard extends JPanel implements ActionListener {
 
 
     public whiteboard(IWhiteboardState whiteboardState) {
-        tempPoints = new ArrayList<>();
         drawing = false;
         this.localState = whiteboardState;
 
@@ -47,7 +49,6 @@ public class whiteboard extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Clear the list of points and repaint the panel
-                tempPoints.clear();
 
                 try {
                     localState.clearElements();
@@ -67,7 +68,11 @@ public class whiteboard extends JPanel implements ActionListener {
             public void mousePressed(MouseEvent evt) {
                 if (evt.getButton() == MouseEvent.BUTTON1) {
                     // Start drawing a line
-                    tempPoints.add(evt.getPoint());
+                    switch (drawTypes.getSelectedType()) {
+                        case "Freehand":
+                            tempDrawingItem = new freehandLine(new ArrayList<>(), colours.getColour(), 3, STROKE);
+                            tempDrawingItem.updateDrawing(evt.getPoint());
+                    }
                     drawing = true;
                 }
             }
@@ -76,13 +81,11 @@ public class whiteboard extends JPanel implements ActionListener {
             public void mouseReleased(MouseEvent evt) {
                 if (evt.getButton() == MouseEvent.BUTTON1) {
                     // Stop drawing a line
-                    tempPoints.add(evt.getPoint());
+                    tempDrawingItem.updateDrawing(evt.getPoint());
                     drawing = false;
-                    ArrayList<Point> newPoints = new ArrayList<>();
-                    newPoints.addAll(tempPoints);
-                    newStroke(newPoints, colours.getColour());
-                    tempPoints.clear();
 
+                    addRenderElementToRemote(tempDrawingItem);
+                    tempDrawingItem = null;
                 }
             }
         });
@@ -92,8 +95,7 @@ public class whiteboard extends JPanel implements ActionListener {
             public void mouseDragged(MouseEvent evt) {
                 if (drawing) {
                     // Draw a line segment between the last point and the current mouse position
-                    tempPoints.add(evt.getPoint());
-
+                    tempDrawingItem.updateDrawing(evt.getPoint());
                 }
             }
         });
@@ -121,30 +123,16 @@ public class whiteboard extends JPanel implements ActionListener {
             exception.printStackTrace();
         }
 
-        renderLine(g2d, Color.BLUE, 3, tempPoints);
-    }
-
-    private void renderLine(Graphics2D g2d, Color color, float thickness, ArrayList<Point> pointSet) {
-        g2d.setColor(color);
-        g2d.setStroke(new BasicStroke(thickness));
-
-        // Draw the line using the list of points
-        for (int i = 0; i < pointSet.size() - 1; i++) {
-            Point p1 = pointSet.get(i);
-            Point p2 = pointSet.get(i + 1);
-            g2d.draw(new Line2D.Double(p1, p2));
+        if (Objects.nonNull(tempDrawingItem)) {
+            tempDrawingItem.renderSelf(g2d);
         }
     }
 
     private void renderElements(Graphics2D g2d, ArrayList<IRenderable> elements) {
-
         try {
             for (int i=0; i < elements.size(); i++) {
                 IRenderable el = elements.get(i);
                 el.renderSelf(g2d);
-                /*if (el.getType().equals(renderTypes.STROKE)) {
-                    renderLine(g2d, el.getColor(), el.getStrokeWidth(), el.getPoints());
-                }*/
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -153,12 +141,15 @@ public class whiteboard extends JPanel implements ActionListener {
 
     }
 
-
-    private void newStroke(ArrayList<Point> points, Color colour) {
+    private void addRenderElementToRemote(IRenderable renderable) {
         try {
-            localState.addElement(new freehandLine(points, colour, 3, renderTypes.STROKE));
-        } catch (Exception exception) {
-            exception.printStackTrace();
+            switch (renderable.getType()) {
+                case STROKE:
+                    localState.addElement(new freehandLine(renderable));
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

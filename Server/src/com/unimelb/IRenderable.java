@@ -8,6 +8,8 @@ public interface IRenderable extends Serializable {
 
     public ArrayList<Point> getPoints();
 
+    public void updateDrawing(Point newPoint);
+
     public Color getColor();
 
     public int getStrokeWidth();

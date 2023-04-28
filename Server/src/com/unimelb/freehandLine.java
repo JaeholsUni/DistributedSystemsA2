@@ -19,9 +19,21 @@ public class freehandLine implements IRenderable {
         this.type = type;
     }
 
+    public freehandLine(IRenderable line) {
+        this.points = line.getPoints();
+        this.color = line.getColor();
+        this.strokeWidth = line.getStrokeWidth();
+        this.type = line.getType();
+    }
+
     @Override
     public ArrayList<Point> getPoints() {
         return points;
+    }
+
+    @Override
+    public void updateDrawing(Point newPoint) {
+        points.add(newPoint);
     }
 
     @Override
@@ -41,6 +53,8 @@ public class freehandLine implements IRenderable {
 
     @Override
     public void renderSelf(Graphics2D g2d) {
+
+
         g2d.setColor(this.getColor());
         g2d.setStroke(new BasicStroke(this.getStrokeWidth()));
 
