@@ -61,13 +61,6 @@ public class whiteboard extends JPanel implements ActionListener {
         add(resetButton, BorderLayout.SOUTH);
 
 
-
-
-
-
-
-
-
         // Drawing logic
         addMouseListener(new MouseAdapter() {
             @Override
