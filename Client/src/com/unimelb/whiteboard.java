@@ -1,8 +1,5 @@
 package com.unimelb;
-import com.unimelb.renderElements.ellipse;
-import com.unimelb.renderElements.freehandLine;
-import com.unimelb.renderElements.rectangle;
-import com.unimelb.renderElements.square;
+import com.unimelb.renderElements.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -83,6 +80,9 @@ public class whiteboard extends JPanel implements ActionListener {
                             break;
                         case "Square":
                             tempDrawingItem = new square(new ArrayList<>(), colours.getColour(), 3, SQUARE);
+                            break;
+                        case "Circle":
+                            tempDrawingItem = new circle(new ArrayList<>(), colours.getColour(), 3, CIRCLE);
                             break;
                     }
                     tempDrawingItem.updateDrawing(evt.getPoint());
@@ -166,6 +166,9 @@ public class whiteboard extends JPanel implements ActionListener {
                     break;
                 case SQUARE:
                     localState.addElement(new square(renderable));
+                    break;
+                case CIRCLE:
+                    localState.addElement(new circle(renderable));
                     break;
             }
         } catch (Exception e) {
