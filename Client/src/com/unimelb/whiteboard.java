@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Objects;
 import javax.swing.*;
 
+import static com.unimelb.renderTypes.RECTANGLE;
 import static com.unimelb.renderTypes.STROKE;
 
 public class whiteboard extends JPanel implements ActionListener {
@@ -72,6 +73,11 @@ public class whiteboard extends JPanel implements ActionListener {
                         case "Freehand":
                             tempDrawingItem = new freehandLine(new ArrayList<>(), colours.getColour(), 3, STROKE);
                             tempDrawingItem.updateDrawing(evt.getPoint());
+                            break;
+                        case "Rectangle":
+                            tempDrawingItem = new rectangle(new ArrayList<>(), colours.getColour(), 3, RECTANGLE);
+                            tempDrawingItem.updateDrawing(evt.getPoint());
+                            break;
                     }
                     drawing = true;
                 }
@@ -146,6 +152,9 @@ public class whiteboard extends JPanel implements ActionListener {
             switch (renderable.getType()) {
                 case STROKE:
                     localState.addElement(new freehandLine(renderable));
+                    break;
+                case RECTANGLE:
+                    localState.addElement(new rectangle(renderable));
                     break;
             }
         } catch (Exception e) {

@@ -57,9 +57,6 @@ public class rectangle implements IRenderable{
 
     @Override
     public void renderSelf(Graphics2D g2d) {
-        g2d.setColor(this.getColor());
-        g2d.setStroke(new BasicStroke(this.getStrokeWidth()));
-
         Double width = Math.abs(points.get(0).getX() - points.get(1).getX());
         Double height = Math.abs(points.get(0).getY() - points.get(1).getY());
 
