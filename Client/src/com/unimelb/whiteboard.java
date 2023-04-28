@@ -136,14 +136,15 @@ public class whiteboard extends JPanel implements ActionListener {
         }
     }
 
-    private void renderElements(Graphics2D g2d, ArrayList<renderElement> elements) {
+    private void renderElements(Graphics2D g2d, ArrayList<IRenderable> elements) {
 
         try {
             for (int i=0; i < elements.size(); i++) {
-                renderElement el = elements.get(i);
-                if (el.getType().equals(renderTypes.STROKE)) {
+                IRenderable el = elements.get(i);
+                el.renderSelf(g2d);
+                /*if (el.getType().equals(renderTypes.STROKE)) {
                     renderLine(g2d, el.getColor(), el.getStrokeWidth(), el.getPoints());
-                }
+                }*/
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -155,8 +156,7 @@ public class whiteboard extends JPanel implements ActionListener {
 
     private void newStroke(ArrayList<Point> points, Color colour) {
         try {
-            localState.addElement(new renderElement(points, colour, 3, renderTypes.STROKE));
-
+            localState.addElement(new freehandLine(points, colour, 3, renderTypes.STROKE));
         } catch (Exception exception) {
             exception.printStackTrace();
         }

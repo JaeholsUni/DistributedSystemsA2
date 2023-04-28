@@ -13,4 +13,6 @@ public interface IRenderable extends Serializable {
     public int getStrokeWidth();
 
     public renderTypes getType();
+
+    public abstract void renderSelf(Graphics2D g2d);
 }

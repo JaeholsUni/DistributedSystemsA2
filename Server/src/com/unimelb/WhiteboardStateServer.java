@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class WhiteboardStateServer extends UnicastRemoteObject implements IWhiteboardState {
 
     int myState = 0;
-    private ArrayList<renderElement> elements = new ArrayList<renderElement>();
+    private ArrayList<IRenderable> elements = new ArrayList<IRenderable>();
 
     protected WhiteboardStateServer() throws RemoteException {
         super();
@@ -29,13 +29,13 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
     }
 
     @Override
-    public ArrayList<renderElement> getElementArray() throws RemoteException {
+    public ArrayList<IRenderable> getElementArray() throws RemoteException {
         //System.out.println("hehe someone wants my elements");
         return elements;
     }
 
     @Override
-    public void addElement(renderElement element) throws RemoteException {
+    public void addElement(IRenderable element) throws RemoteException {
         elements.add(element);
         System.out.println("Element Added :)");
         System.out.println("Total number of elements" + elements.size());

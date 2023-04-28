@@ -12,9 +12,9 @@ public interface IWhiteboardState extends Remote {
 
     public void setMyState(int newState) throws RemoteException;
 
-    public ArrayList<renderElement> getElementArray() throws RemoteException;
+    public ArrayList<IRenderable> getElementArray() throws RemoteException;
 
-    public void addElement(renderElement element) throws RemoteException;
+    public void addElement(IRenderable element) throws RemoteException;
 
     public void clearElements() throws RemoteException;
 }
