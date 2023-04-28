@@ -2,6 +2,7 @@ package com.unimelb;
 import com.unimelb.renderElements.ellipse;
 import com.unimelb.renderElements.freehandLine;
 import com.unimelb.renderElements.rectangle;
+import com.unimelb.renderElements.square;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -73,17 +74,18 @@ public class whiteboard extends JPanel implements ActionListener {
                     switch (drawTypes.getSelectedType()) {
                         case "Freehand":
                             tempDrawingItem = new freehandLine(new ArrayList<>(), colours.getColour(), 3, STROKE);
-                            tempDrawingItem.updateDrawing(evt.getPoint());
                             break;
                         case "Rectangle":
                             tempDrawingItem = new rectangle(new ArrayList<>(), colours.getColour(), 3, RECTANGLE);
-                            tempDrawingItem.updateDrawing(evt.getPoint());
                             break;
                         case "Ellipse":
                             tempDrawingItem = new ellipse(new ArrayList<>(), colours.getColour(), 3, ELLIPSE);
-                            tempDrawingItem.updateDrawing(evt.getPoint());
+                            break;
+                        case "Square":
+                            tempDrawingItem = new square(new ArrayList<>(), colours.getColour(), 3, SQUARE);
                             break;
                     }
+                    tempDrawingItem.updateDrawing(evt.getPoint());
                     drawing = true;
                 }
             }
@@ -161,6 +163,9 @@ public class whiteboard extends JPanel implements ActionListener {
                     break;
                 case ELLIPSE:
                     localState.addElement(new ellipse(renderable));
+                    break;
+                case SQUARE:
+                    localState.addElement(new square(renderable));
                     break;
             }
         } catch (Exception e) {
