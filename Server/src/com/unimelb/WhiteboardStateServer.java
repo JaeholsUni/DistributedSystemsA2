@@ -8,6 +8,9 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
 
     int myState = 0;
     private ArrayList<IRenderable> elements = new ArrayList<IRenderable>();
+    private ArrayList<String> chatMessages = new ArrayList<String>();
+    private ArrayList<String> connectedUsers = new ArrayList<String>();
+    private ArrayList<String> blackList = new ArrayList<String>();
 
     protected WhiteboardStateServer() throws RemoteException {
         super();
@@ -30,7 +33,6 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
 
     @Override
     public ArrayList<IRenderable> getElementArray() throws RemoteException {
-        //System.out.println("hehe someone wants my elements");
         return elements;
     }
 
@@ -44,5 +46,25 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
     @Override
     public void clearElements() throws RemoteException {
         elements.clear();
+    }
+
+    @Override
+    public ArrayList<String> getChatList() throws RemoteException {
+        return chatMessages;
+    }
+
+    @Override
+    public void addNewChatMessage(String newChat) throws RemoteException {
+        chatMessages.add(newChat);
+    }
+
+    @Override
+    public ArrayList<String> getConnectedUsers() throws RemoteException {
+        return connectedUsers;
+    }
+
+    @Override
+    public void addNewUser(String username) throws RemoteException {
+        connectedUsers.add(username);
     }
 }

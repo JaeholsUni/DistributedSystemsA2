@@ -17,4 +17,12 @@ public interface IWhiteboardState extends Remote {
     public void addElement(IRenderable element) throws RemoteException;
 
     public void clearElements() throws RemoteException;
+
+    public ArrayList<String> getChatList() throws RemoteException;
+
+    public void addNewChatMessage(String newChat) throws RemoteException;
+
+    public ArrayList<String> getConnectedUsers() throws RemoteException;
+
+    public void addNewUser(String username) throws RemoteException;
 }

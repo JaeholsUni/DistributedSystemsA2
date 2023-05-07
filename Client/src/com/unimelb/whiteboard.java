@@ -38,7 +38,7 @@ public class whiteboard extends JPanel implements ActionListener {
 
         this.colours = new colourDropdownPanel();
         this.drawTypes = new drawingTypeDropdownPanel();
-        this.chatPanel = new chatPanel(testArray);
+        this.chatPanel = new chatPanel(whiteboardState);
 
         JPanel topControlPanel = new JPanel();
         topControlPanel.setLayout(new BoxLayout(topControlPanel, BoxLayout.X_AXIS));

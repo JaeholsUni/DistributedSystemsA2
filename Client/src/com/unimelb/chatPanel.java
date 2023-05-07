@@ -8,12 +8,14 @@ import java.util.ArrayList;
 
 public class chatPanel extends JPanel {
 
-    private ArrayList<String> list;
     private JTextArea textArea;
     private JTextField inputField;
+    private IWhiteboardState localState;
+    private Timer timer;
 
-    public chatPanel(ArrayList<String> list) {
-        this.list = list;
+
+    public chatPanel(IWhiteboardState state) {
+        localState = state;
         textArea = new JTextArea(20, 40);
         JScrollPane scrollPane = new JScrollPane(textArea);
         inputField = new JTextField(40);
@@ -25,23 +27,41 @@ public class chatPanel extends JPanel {
         setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
         add(inputPanel, BorderLayout.SOUTH);
-        printList();
+
+        timer = new Timer(16, new ReWriteTextWindow());
+        timer.start();
     }
 
     private void printList() {
-        for (String str : list) {
-            textArea.append(str + "\n");
+        try{
+            for (String str : localState.getChatList()) {
+                textArea.append(str + "\n");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     private class AddButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String inputText = inputField.getText();
             if (!inputText.isEmpty()) {
-                list.add(inputText);
+                try {
+                    localState.addNewChatMessage(inputText);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 textArea.append(inputText + "\n");
                 inputField.setText("");
             }
+        }
+    }
+
+    private class ReWriteTextWindow implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            textArea.setText(null);
+            printList();
         }
     }
 }
