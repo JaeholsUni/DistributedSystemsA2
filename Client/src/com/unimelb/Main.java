@@ -15,18 +15,18 @@ public class Main {
         try {
             Registry registry = LocateRegistry.getRegistry("localhost", 4444);
 
-            IWhiteboardState state = (IWhiteboardState) registry.lookup(serviceName);
+            IWhiteboardState whiteboardState = (IWhiteboardState) registry.lookup(serviceName);
 
             //IWhiteboardState state = (IWhiteboardState) Naming.lookup("rmi://" + hostname + "/" + serviceName);
-            System.out.println(state.helloWorld(who));
-            System.out.println(state.getMyState());
-            state.setMyState(5);
-            System.out.println(state.getMyState());
+            System.out.println(whiteboardState.helloWorld(who));
+            System.out.println(whiteboardState.getMyState());
+            whiteboardState.setMyState(5);
+            System.out.println(whiteboardState.getMyState());
 
             JFrame frame = new JFrame("Line Drawer");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new whiteboard(state));
-            frame.setSize(400, 400);
+            frame.add(new whiteboard(whiteboardState));
+            frame.setSize(1280, 720);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         } catch (Exception e) {

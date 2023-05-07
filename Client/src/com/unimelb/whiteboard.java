@@ -19,9 +19,11 @@ public class whiteboard extends JPanel implements ActionListener {
     private boolean drawing;
     private boolean typing;
     private Timer timer;
+    private ArrayList<String> testArray = new ArrayList<>();
 
     private colourDropdownPanel colours;
     private drawingTypeDropdownPanel drawTypes;
+    private chatPanel chatPanel;
 
 
     public whiteboard(IWhiteboardState whiteboardState) {
@@ -30,18 +32,24 @@ public class whiteboard extends JPanel implements ActionListener {
         this.localState = whiteboardState;
         this.setFocusable(true);
 
+
         setBackground(Color.WHITE);
         setLayout(new BorderLayout());
 
         this.colours = new colourDropdownPanel();
         this.drawTypes = new drawingTypeDropdownPanel();
+        this.chatPanel = new chatPanel(testArray);
 
         JPanel topControlPanel = new JPanel();
         topControlPanel.setLayout(new BoxLayout(topControlPanel, BoxLayout.X_AXIS));
         topControlPanel.add(colours);
         topControlPanel.add(drawTypes);
 
+        JPanel chatWindow = new JPanel();
+        chatWindow.add(chatPanel);
+
         add(topControlPanel, BorderLayout.NORTH);
+        add(chatWindow, BorderLayout.WEST);
 
         // Create a button to reset the list of points
         resetButton = new JButton("Reset Points");
