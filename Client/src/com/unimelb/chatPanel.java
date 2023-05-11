@@ -12,10 +12,12 @@ public class chatPanel extends JPanel {
     private JTextField inputField;
     private IWhiteboardState localState;
     private Timer timer;
+    private String username;
 
 
-    public chatPanel(IWhiteboardState state) {
+    public chatPanel(IWhiteboardState state, String username) {
         localState = state;
+        this.username = username;
         textArea = new JTextArea(20, 40);
         JScrollPane scrollPane = new JScrollPane(textArea);
         inputField = new JTextField(40);
@@ -48,11 +50,10 @@ public class chatPanel extends JPanel {
             String inputText = inputField.getText();
             if (!inputText.isEmpty()) {
                 try {
-                    localState.addNewChatMessage(inputText);
+                    localState.addNewChatMessage(username + ": " + inputText);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                textArea.append(inputText + "\n");
                 inputField.setText("");
             }
         }

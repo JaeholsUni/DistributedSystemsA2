@@ -20,6 +20,7 @@ public class whiteboard extends JPanel implements ActionListener {
     private boolean typing;
     private Timer timer;
     private ArrayList<String> testArray = new ArrayList<>();
+    private String username;
 
     private colourDropdownPanel colours;
     private drawingTypeDropdownPanel drawTypes;
@@ -27,6 +28,12 @@ public class whiteboard extends JPanel implements ActionListener {
 
 
     public whiteboard(IWhiteboardState whiteboardState) {
+        username = usernamePopup();
+        if (username == null || username.equals("")){
+            JOptionPane.showMessageDialog(this, "Please try again with valid username");
+            System.exit(0);
+        }
+
         drawing = false;
         typing = false;
         this.localState = whiteboardState;
@@ -38,7 +45,7 @@ public class whiteboard extends JPanel implements ActionListener {
 
         this.colours = new colourDropdownPanel();
         this.drawTypes = new drawingTypeDropdownPanel();
-        this.chatPanel = new chatPanel(whiteboardState);
+        this.chatPanel = new chatPanel(whiteboardState, username);
 
         JPanel topControlPanel = new JPanel();
         topControlPanel.setLayout(new BoxLayout(topControlPanel, BoxLayout.X_AXIS));
@@ -130,7 +137,6 @@ public class whiteboard extends JPanel implements ActionListener {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key recorded");
                 if (typing) {
                     int keyCode = e.getKeyCode();
                     if (keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z) {
@@ -219,5 +225,9 @@ public class whiteboard extends JPanel implements ActionListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String usernamePopup() {
+        return JOptionPane.showInputDialog(this, "Please enter your username to connect:");
     }
 }
