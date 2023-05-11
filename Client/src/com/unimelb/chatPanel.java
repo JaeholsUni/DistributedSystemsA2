@@ -13,22 +13,34 @@ public class chatPanel extends JPanel {
     private IWhiteboardState localState;
     private Timer timer;
     private String username;
+    private JList<String> connectedUsers;
+    private JScrollPane userListScrollPane;
 
 
     public chatPanel(IWhiteboardState state, String username) {
         localState = state;
         this.username = username;
+        try {
+            connectedUsers = new JList<>(localState.getConnectedUsers().toArray(new String[0]));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         textArea = new JTextArea(20, 40);
         JScrollPane scrollPane = new JScrollPane(textArea);
         inputField = new JTextField(40);
         JButton addButton = new JButton("Send");
+        JLabel connectedUsersLabel = new JLabel("Connected Users:");
+        userListScrollPane = new JScrollPane(connectedUsers);
         addButton.addActionListener(new AddButtonListener());
         JPanel inputPanel = new JPanel();
         inputPanel.add(inputField);
         inputPanel.add(addButton);
-        setLayout(new BorderLayout());
-        add(scrollPane, BorderLayout.CENTER);
-        add(inputPanel, BorderLayout.SOUTH);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(scrollPane);
+        add(inputPanel);
+        add(connectedUsersLabel);
+        add(userListScrollPane);
+
 
         timer = new Timer(16, new ReWriteTextWindow());
         timer.start();
@@ -43,6 +55,14 @@ public class chatPanel extends JPanel {
             e.printStackTrace();
         }
 
+    }
+
+    private void printConnectedUsers() {
+        try {
+            connectedUsers.setListData(localState.getConnectedUsers().toArray(new String[0]));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private class AddButtonListener implements ActionListener {
@@ -63,6 +83,7 @@ public class chatPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             textArea.setText(null);
             printList();
+            printConnectedUsers();
         }
     }
 }

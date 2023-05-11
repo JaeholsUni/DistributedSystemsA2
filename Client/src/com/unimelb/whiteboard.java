@@ -20,6 +20,7 @@ public class whiteboard extends JPanel implements ActionListener {
     private boolean typing;
     private Timer timer;
     private ArrayList<String> testArray = new ArrayList<>();
+    private ArrayList<String> connectedUserList;
     private String username;
 
     private colourDropdownPanel colours;
@@ -29,9 +30,23 @@ public class whiteboard extends JPanel implements ActionListener {
 
     public whiteboard(IWhiteboardState whiteboardState) {
         username = usernamePopup();
+        try {
+            connectedUserList = whiteboardState.getConnectedUsers();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         if (username == null || username.equals("")){
             JOptionPane.showMessageDialog(this, "Please try again with valid username");
             System.exit(0);
+        } else if (connectedUserList.contains(username)){
+            JOptionPane.showMessageDialog(this, "Username taken please try again");
+            System.exit(0);
+        } else {
+            try {
+                whiteboardState.addNewUser(username);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }
 
         drawing = false;
@@ -229,5 +244,9 @@ public class whiteboard extends JPanel implements ActionListener {
 
     private String usernamePopup() {
         return JOptionPane.showInputDialog(this, "Please enter your username to connect:");
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

@@ -25,4 +25,6 @@ public interface IWhiteboardState extends Remote {
     public ArrayList<String> getConnectedUsers() throws RemoteException;
 
     public void addNewUser(String username) throws RemoteException;
+
+    public void removeUser(String username) throws RemoteException;
 }

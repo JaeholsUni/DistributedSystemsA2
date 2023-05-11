@@ -1,7 +1,10 @@
 package com.unimelb;
 
+import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.RemoteObject;
+import java.util.Arrays;
 
 public class Main {
 
@@ -19,6 +22,7 @@ public class Main {
 
             //Naming.rebind("rmi://" + hostname + "/" + serviceName, state);
             System.out.println("RMI ready to go");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

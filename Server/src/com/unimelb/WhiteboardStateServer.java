@@ -66,5 +66,12 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
     @Override
     public void addNewUser(String username) throws RemoteException {
         connectedUsers.add(username);
+        System.out.println(connectedUsers);
+    }
+
+    @Override
+    public void removeUser(String username) throws RemoteException {
+        connectedUsers.remove(username);
+        System.out.println(connectedUsers);
     }
 }
