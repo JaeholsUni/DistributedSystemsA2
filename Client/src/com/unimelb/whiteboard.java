@@ -32,6 +32,7 @@ public class whiteboard extends JPanel implements ActionListener {
     public whiteboard(IWhiteboardState whiteboardState) {
         username = usernamePopup();
         try {
+            checkBan(whiteboardState);
             connectedUserList = whiteboardState.getConnectedUsers();
         } catch (Exception exception) {
             RMIDeadShutdown();
@@ -177,6 +178,7 @@ public class whiteboard extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        checkBan(localState);
         RMIheartbeat();
         if (typing && !drawTypes.getSelectedType().equals("Text")) {
             typing = false;
@@ -264,5 +266,22 @@ public class whiteboard extends JPanel implements ActionListener {
     private void RMIDeadShutdown() {
         JOptionPane.showMessageDialog(this, "Connection with Server lost");
         System.exit(0);
+    }
+
+    private void checkBan(IWhiteboardState state) {
+        try {
+            if (state.isOnBlackList(username)) {
+
+                if (timer != null) {
+                    timer.stop();
+                }
+                JOptionPane.showMessageDialog(this, "You have been removed from this server");
+
+                System.exit(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            RMIDeadShutdown();
+        }
     }
 }

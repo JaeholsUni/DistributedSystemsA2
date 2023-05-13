@@ -28,5 +28,11 @@ public interface IWhiteboardState extends Remote {
 
     public void removeUser(String username) throws RemoteException;
 
+    public void banUser(String username) throws RemoteException;
+
+    public void unbanUser(String username) throws RemoteException;
+
+    public boolean isOnBlackList(String username) throws RemoteException;
+
     public void heartbeat() throws RemoteException;
 }

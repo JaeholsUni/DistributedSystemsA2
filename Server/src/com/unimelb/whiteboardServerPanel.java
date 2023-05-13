@@ -9,7 +9,6 @@ public class whiteboardServerPanel extends JPanel {
     private WhiteboardStateServer serverLocalState;
     private JButton resetButton;
 
-    private DefaultListModel<String> connectedUserModel;
     private JList<String> connectedUserList;
     private JScrollPane connectedUserScrollPane;
     private JButton kickButton;
@@ -47,6 +46,11 @@ public class whiteboardServerPanel extends JPanel {
         kickButton = new JButton("Kick User");
         kickButton.addActionListener(e -> {
             System.out.println(lastSelectedUser);
+            try {
+                serverLocalState.banUser(lastSelectedUser);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
         add(kickButton);
 
