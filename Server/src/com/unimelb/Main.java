@@ -1,5 +1,6 @@
 package com.unimelb;
 
+import javax.swing.*;
 import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -9,7 +10,6 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
 
         String hostname = "localhost";
         String serviceName = "StateService";
@@ -20,7 +20,15 @@ public class Main {
             Registry registry = LocateRegistry.getRegistry(hostname,4444);
             registry.bind(serviceName, state);
 
-            //Naming.rebind("rmi://" + hostname + "/" + serviceName, state);
+            JFrame frame = new JFrame("Whiteboard Host");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            whiteboardServerPanel serverPanel = new whiteboardServerPanel((WhiteboardStateServer) state);
+            frame.add(serverPanel);
+
+            frame.setSize(1280, 720);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
             System.out.println("RMI ready to go");
 
         } catch (Exception e) {

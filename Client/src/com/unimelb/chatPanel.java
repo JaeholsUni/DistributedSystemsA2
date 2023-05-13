@@ -23,7 +23,6 @@ public class chatPanel extends JPanel {
         try {
             connectedUsers = new JList<>(localState.getConnectedUsers().toArray(new String[0]));
         } catch (Exception e) {
-            e.printStackTrace();
         }
         textArea = new JTextArea(20, 40);
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -52,7 +51,7 @@ public class chatPanel extends JPanel {
                 textArea.append(str + "\n");
             }
         }catch (Exception e) {
-            e.printStackTrace();
+            timer.stop();
         }
 
     }
@@ -61,7 +60,7 @@ public class chatPanel extends JPanel {
         try {
             connectedUsers.setListData(localState.getConnectedUsers().toArray(new String[0]));
         } catch (Exception e) {
-            e.printStackTrace();
+            timer.stop();
         }
     }
 
@@ -72,7 +71,7 @@ public class chatPanel extends JPanel {
                 try {
                     localState.addNewChatMessage(username + ": " + inputText);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    timer.stop();
                 }
                 inputField.setText("");
             }

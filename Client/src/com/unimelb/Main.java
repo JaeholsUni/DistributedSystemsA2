@@ -19,13 +19,12 @@ public class Main {
 
             IWhiteboardState whiteboardState = (IWhiteboardState) registry.lookup(serviceName);
 
-            //IWhiteboardState state = (IWhiteboardState) Naming.lookup("rmi://" + hostname + "/" + serviceName);
             System.out.println(whiteboardState.helloWorld(who));
             System.out.println(whiteboardState.getMyState());
             whiteboardState.setMyState(5);
             System.out.println(whiteboardState.getMyState());
 
-            JFrame frame = new JFrame("Line Drawer");
+            JFrame frame = new JFrame("Whiteboard");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             whiteboard whiteboard = new whiteboard(whiteboardState);
             frame.add(whiteboard);

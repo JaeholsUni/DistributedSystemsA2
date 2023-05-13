@@ -74,4 +74,8 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
         connectedUsers.remove(username);
         System.out.println(connectedUsers);
     }
+
+    @Override
+    public void heartbeat() throws RemoteException {
+    }
 }

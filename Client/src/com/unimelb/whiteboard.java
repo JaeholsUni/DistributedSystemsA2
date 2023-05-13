@@ -3,6 +3,7 @@ import com.unimelb.renderElements.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Objects;
 import javax.swing.*;
@@ -33,7 +34,7 @@ public class whiteboard extends JPanel implements ActionListener {
         try {
             connectedUserList = whiteboardState.getConnectedUsers();
         } catch (Exception exception) {
-            exception.printStackTrace();
+            RMIDeadShutdown();
         }
         if (username == null || username.equals("")){
             JOptionPane.showMessageDialog(this, "Please try again with valid username");
@@ -45,7 +46,7 @@ public class whiteboard extends JPanel implements ActionListener {
             try {
                 whiteboardState.addNewUser(username);
             } catch (Exception exception) {
-                exception.printStackTrace();
+                RMIDeadShutdown();
             }
         }
 
@@ -79,7 +80,7 @@ public class whiteboard extends JPanel implements ActionListener {
             try {
                 localState.clearElements();
             } catch (Exception exception) {
-                exception.printStackTrace();
+                RMIDeadShutdown();
             }
 
             repaint();
@@ -176,6 +177,7 @@ public class whiteboard extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        RMIheartbeat();
         if (typing && !drawTypes.getSelectedType().equals("Text")) {
             typing = false;
             tempDrawingItem = null;
@@ -193,7 +195,7 @@ public class whiteboard extends JPanel implements ActionListener {
         try {
             renderElements(g2d, localState.getElementArray());
         } catch (Exception exception) {
-            exception.printStackTrace();
+            RMIDeadShutdown();
         }
 
         if (Objects.nonNull(tempDrawingItem)) {
@@ -208,7 +210,7 @@ public class whiteboard extends JPanel implements ActionListener {
                 el.renderSelf(g2d);
             }
         } catch (Exception exception) {
-            exception.printStackTrace();
+            RMIDeadShutdown();
         }
     }
 
@@ -238,7 +240,7 @@ public class whiteboard extends JPanel implements ActionListener {
                     break;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            RMIDeadShutdown();
         }
     }
 
@@ -248,5 +250,19 @@ public class whiteboard extends JPanel implements ActionListener {
 
     public String getUsername() {
         return username;
+    }
+
+    private void RMIheartbeat() {
+        try {
+            localState.heartbeat();
+        } catch (RemoteException exception) {
+            timer.stop();
+            RMIDeadShutdown();
+        }
+    }
+
+    private void RMIDeadShutdown() {
+        JOptionPane.showMessageDialog(this, "Connection with Server lost");
+        System.exit(0);
     }
 }
