@@ -98,4 +98,8 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
     @Override
     public void heartbeat() throws RemoteException {
     }
+
+    public ArrayList<String> getBlackList() {
+        return blackList;
+    }
 }
