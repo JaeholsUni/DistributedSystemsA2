@@ -25,7 +25,7 @@ public class topMenuPanel extends JPanel {
         saveButton.addActionListener(e -> {
         });
 
-        loadButton = new JButton("Save");
+        loadButton = new JButton("Load");
         loadButton.addActionListener(e -> {
         });
 

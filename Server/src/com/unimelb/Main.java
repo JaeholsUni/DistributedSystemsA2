@@ -25,7 +25,8 @@ public class Main {
             whiteboardServerPanel serverPanel = new whiteboardServerPanel((WhiteboardStateServer) state);
             frame.add(serverPanel);
 
-            frame.setSize(1280, 720);
+            //frame.setSize(1280, 720);
+            frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
 

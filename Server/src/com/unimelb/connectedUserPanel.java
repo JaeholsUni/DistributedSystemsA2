@@ -7,16 +7,16 @@ import java.awt.event.ActionListener;
 public class connectedUserPanel extends JPanel {
 
     private IWhiteboardState localState;
-    private String lastSelection;
+    private bottomControlPanel bottomControlPanel;
 
     private JList<String> connectedUserList;
     private JScrollPane connectedUserScrollPane;
 
     private Timer timer;
 
-    public connectedUserPanel(IWhiteboardState state, String lastSelectedUser) {
+    public connectedUserPanel(IWhiteboardState state, bottomControlPanel bottomPanel) {
         localState = state;
-        lastSelection = lastSelectedUser;
+        bottomControlPanel = bottomPanel;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -31,8 +31,7 @@ public class connectedUserPanel extends JPanel {
 
         connectedUserList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                lastSelection = connectedUserList.getSelectedValue();
-                System.out.println("From the Connected List: " + lastSelection);
+                bottomControlPanel.setLastSelectedUserField(connectedUserList.getSelectedValue());
             }
         });
 

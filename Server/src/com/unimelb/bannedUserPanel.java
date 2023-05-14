@@ -7,16 +7,16 @@ import java.awt.event.ActionListener;
 public class bannedUserPanel extends JPanel {
 
     private WhiteboardStateServer localState;
-    private String lastSelection;
+    private bottomControlPanel bottomControlPanel;
 
     private JList<String> bannedUserList;
     private JScrollPane bannedUserScrollPane;
 
     private Timer timer;
 
-    public bannedUserPanel(WhiteboardStateServer state, String lastSelectedUser) {
+    public bannedUserPanel(WhiteboardStateServer state, bottomControlPanel bottomPanel) {
         localState = state;
-        lastSelection = lastSelectedUser;
+        bottomControlPanel = bottomPanel;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -31,8 +31,7 @@ public class bannedUserPanel extends JPanel {
 
         bannedUserList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                lastSelection = bannedUserList.getSelectedValue();
-                System.out.println("From the Banned List: " + lastSelection);
+                bottomControlPanel.setLastSelectedUserField(bannedUserList.getSelectedValue());
             }
         });
 
