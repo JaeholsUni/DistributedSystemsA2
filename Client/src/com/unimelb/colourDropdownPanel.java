@@ -4,12 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class colourDropdownPanel extends JPanel {
+    private JLabel colourLabel = new JLabel("Colours");
     private String[] colours = {"Black", "Red", "Green", "Blue", "Grey", "Yellow", "Orange", "Purple", "Magenta", "Cyan", "Navy", "Pink", "Brown", "Tan", "Lime", "Salmon"};
     private JComboBox<String> colourDropdown;
 
     public colourDropdownPanel() {
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        add(colourLabel);
         colourDropdown = new JComboBox<>(colours);
         add(colourDropdown);
+        add(Box.createHorizontalStrut(10));
     }
 
     public Color getColour() {
