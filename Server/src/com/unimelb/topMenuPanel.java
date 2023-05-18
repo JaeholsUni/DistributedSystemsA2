@@ -1,6 +1,7 @@
 package com.unimelb;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class topMenuPanel extends JPanel {
 
@@ -32,6 +33,16 @@ public class topMenuPanel extends JPanel {
 
         loadButton = new JButton("Load");
         loadButton.addActionListener(e -> {
+            ArrayList<IRenderable> newRenders =  whiteboardStateExtractor.loadWhiteboardRenderables();
+
+            try {
+                state.clearElements();
+                for (int i = 0; i < newRenders.size(); i++) {
+                    state.addElement(newRenders.get(i));
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         });
 
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));

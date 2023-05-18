@@ -20,6 +20,14 @@ public class textRender implements IRenderable {
         this.textString = new String();
     }
 
+    public textRender(ArrayList<Point> points, Color color, int strokeWidth, renderTypes type, String text) {
+        this.points = points;
+        this.color = color;
+        this.strokeWidth = strokeWidth;
+        this.type = type;
+        this.textString = text;
+    }
+
     public textRender(textRender text) {
         this.points = text.points;
         this.color = text.color;
