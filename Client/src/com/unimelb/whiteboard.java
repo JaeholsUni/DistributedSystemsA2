@@ -25,6 +25,7 @@ public class whiteboard extends JPanel implements ActionListener {
 
     private colourDropdownPanel colours;
     private drawingTypeDropdownPanel drawTypes;
+    private strokeWidthDropdownPanel strokePanel;
     private chatPanel chatPanel;
 
 
@@ -60,12 +61,14 @@ public class whiteboard extends JPanel implements ActionListener {
         setLayout(new BorderLayout());
 
         this.colours = new colourDropdownPanel();
+        this.strokePanel = new strokeWidthDropdownPanel();
         this.drawTypes = new drawingTypeDropdownPanel();
         this.chatPanel = new chatPanel(whiteboardState, username);
 
         JPanel topControlPanel = new JPanel();
         topControlPanel.setLayout(new BoxLayout(topControlPanel, BoxLayout.X_AXIS));
         topControlPanel.add(colours);
+        topControlPanel.add(strokePanel);
         topControlPanel.add(drawTypes);
 
         JPanel chatWindow = new JPanel();
@@ -83,25 +86,25 @@ public class whiteboard extends JPanel implements ActionListener {
                         // Start drawing a line
                         switch (drawTypes.getSelectedType()) {
                             case "Freehand":
-                                tempDrawingItem = new freehandLine(new ArrayList<>(), colours.getColour(), 3, STROKE);
+                                tempDrawingItem = new freehandLine(new ArrayList<>(), colours.getColour(), strokePanel.getSelectedWidth(), STROKE);
                                 break;
                             case "Rectangle":
-                                tempDrawingItem = new rectangle(new ArrayList<>(), colours.getColour(), 3, RECTANGLE);
+                                tempDrawingItem = new rectangle(new ArrayList<>(), colours.getColour(), strokePanel.getSelectedWidth(), RECTANGLE);
                                 break;
                             case "Ellipse":
-                                tempDrawingItem = new ellipse(new ArrayList<>(), colours.getColour(), 3, ELLIPSE);
+                                tempDrawingItem = new ellipse(new ArrayList<>(), colours.getColour(), strokePanel.getSelectedWidth(), ELLIPSE);
                                 break;
                             case "Square":
-                                tempDrawingItem = new square(new ArrayList<>(), colours.getColour(), 3, SQUARE);
+                                tempDrawingItem = new square(new ArrayList<>(), colours.getColour(), strokePanel.getSelectedWidth(), SQUARE);
                                 break;
                             case "Circle":
-                                tempDrawingItem = new circle(new ArrayList<>(), colours.getColour(), 3, CIRCLE);
+                                tempDrawingItem = new circle(new ArrayList<>(), colours.getColour(), strokePanel.getSelectedWidth(), CIRCLE);
                                 break;
                             case "Line":
-                                tempDrawingItem = new line(new ArrayList<>(), colours.getColour(), 3, LINE);
+                                tempDrawingItem = new line(new ArrayList<>(), colours.getColour(), strokePanel.getSelectedWidth(), LINE);
                                 break;
                             case "Text":
-                                tempDrawingItem = new textRender(new ArrayList<>(), colours.getColour(), 3, TEXT);
+                                tempDrawingItem = new textRender(new ArrayList<>(), colours.getColour(), strokePanel.getSelectedWidth(), TEXT);
                                 typing = true;
                                 break;
                         }
@@ -185,10 +188,10 @@ public class whiteboard extends JPanel implements ActionListener {
             timer.stop();
             RMIDeadShutdown();
         }
-
         if (Objects.nonNull(tempDrawingItem)) {
             tempDrawingItem.renderSelf(g2d);
         }
+        g2d.setStroke(new BasicStroke(3));
     }
 
     private void renderElements(Graphics2D g2d, ArrayList<IRenderable> elements) {
