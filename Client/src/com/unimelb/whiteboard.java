@@ -16,7 +16,6 @@ public class whiteboard extends JPanel implements ActionListener {
 
     private IRenderable tempDrawingItem;
     private IWhiteboardState localState;
-    private JButton resetButton;
     private boolean drawing;
     private boolean typing;
     private Timer timer;
@@ -183,6 +182,7 @@ public class whiteboard extends JPanel implements ActionListener {
         try {
             renderElements(g2d, localState.getElementArray());
         } catch (Exception exception) {
+            timer.stop();
             RMIDeadShutdown();
         }
 
@@ -198,6 +198,7 @@ public class whiteboard extends JPanel implements ActionListener {
                 el.renderSelf(g2d);
             }
         } catch (Exception exception) {
+            timer.stop();
             RMIDeadShutdown();
         }
     }
@@ -228,6 +229,7 @@ public class whiteboard extends JPanel implements ActionListener {
                     break;
             }
         } catch (Exception e) {
+            timer.stop();
             RMIDeadShutdown();
         }
     }
@@ -266,7 +268,7 @@ public class whiteboard extends JPanel implements ActionListener {
                 System.exit(0);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            timer.stop();
             RMIDeadShutdown();
         }
     }

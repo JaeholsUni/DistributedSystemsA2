@@ -1,11 +1,8 @@
 package com.unimelb;
 
 import javax.swing.*;
-import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.RemoteObject;
-import java.util.Arrays;
 
 public class Main {
 
@@ -28,9 +25,9 @@ public class Main {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
 
-
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Cannot host ensure valid params", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         }
     }
 }

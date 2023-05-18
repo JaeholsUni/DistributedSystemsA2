@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String serviceName = "WhiteboardStateService";
+        final String serviceName = "WhiteboardStateService";
 
         try {
             Registry registry = LocateRegistry.getRegistry(args[0], Integer.parseInt(args[1]));
@@ -36,7 +36,8 @@ public class Main {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "No host at address, ensure valid params", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         }
 
 
