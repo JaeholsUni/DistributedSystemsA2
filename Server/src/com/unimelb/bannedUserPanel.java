@@ -58,13 +58,12 @@ public class bannedUserPanel extends JPanel {
 
             if (currentModel.getSize() != tempModel.getSize()) {
                 bannedUserList.setListData(localState.getBlackList().toArray(new String[0]));
-                System.out.println("Change");
                 return;
             } else {
                 for (int i = 0; i < currentModel.getSize(); i++) {
                     if (!currentModel.getElementAt(i).equals(tempModel.getElementAt(i))) {
                         bannedUserList.setListData(localState.getBlackList().toArray(new String[0]));
-                        System.out.println("Change");
+
                         return;
                     }
                 }

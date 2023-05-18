@@ -34,7 +34,9 @@ public class topMenuPanel extends JPanel {
         loadButton = new JButton("Load");
         loadButton.addActionListener(e -> {
             ArrayList<IRenderable> newRenders =  whiteboardStateExtractor.loadWhiteboardRenderables();
-
+            if (newRenders.equals(new ArrayList<>())) {
+                return;
+            }
             try {
                 state.clearElements();
                 for (int i = 0; i < newRenders.size(); i++) {

@@ -10,19 +10,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String hostname = "localhost";
-        String serviceName = "StateService";
-        String who = "client";
+        String serviceName = "WhiteboardStateService";
 
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 4444);
+            Registry registry = LocateRegistry.getRegistry(args[0], Integer.parseInt(args[1]));
 
             IWhiteboardState whiteboardState = (IWhiteboardState) registry.lookup(serviceName);
-
-            System.out.println(whiteboardState.helloWorld(who));
-            System.out.println(whiteboardState.getMyState());
-            whiteboardState.setMyState(5);
-            System.out.println(whiteboardState.getMyState());
 
             JFrame frame = new JFrame("Whiteboard");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

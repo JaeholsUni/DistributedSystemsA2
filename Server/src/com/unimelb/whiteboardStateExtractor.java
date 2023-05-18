@@ -80,12 +80,11 @@ public class whiteboardStateExtractor {
                     String[] row = line.split(",");
                     finalArrayList.add(generateRenderFromLine(row));
                 }
-
-            } catch (IOException e) {
-                System.err.println("Failed to read CSV file: " + e.getMessage());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failed to read file, ensure valid format", "Error", JOptionPane.ERROR_MESSAGE);
+                return new ArrayList<>();
             }
         } else {
-            System.out.println("File selection canceled by the user.");
         }
 
         return finalArrayList;

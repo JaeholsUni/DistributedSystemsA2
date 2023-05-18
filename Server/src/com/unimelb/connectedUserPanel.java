@@ -58,13 +58,11 @@ public class connectedUserPanel extends JPanel {
 
             if (currentModel.getSize() != tempModel.getSize()) {
                 connectedUserList.setListData(localState.getConnectedUsers().toArray(new String[0]));
-                System.out.println("Change");
                 return;
             } else {
                 for (int i = 0; i < currentModel.getSize(); i++) {
                     if (!currentModel.getElementAt(i).equals(tempModel.getElementAt(i))) {
                         connectedUserList.setListData(localState.getConnectedUsers().toArray(new String[0]));
-                        System.out.println("Change");
                         return;
                     }
                 }

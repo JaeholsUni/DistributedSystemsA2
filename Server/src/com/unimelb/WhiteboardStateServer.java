@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class WhiteboardStateServer extends UnicastRemoteObject implements IWhiteboardState {
 
-    int myState = 0;
     private ArrayList<IRenderable> elements = new ArrayList<IRenderable>();
     private ArrayList<String> chatMessages = new ArrayList<String>();
     private ArrayList<String> connectedUsers = new ArrayList<String>();
@@ -17,21 +16,6 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
     }
 
     @Override
-    public String helloWorld(String who) throws RemoteException {
-        return "Hello " + who + "from the server via RMI :)";
-    }
-
-    @Override
-    public int getMyState() throws RemoteException {
-        return myState;
-    }
-
-    @Override
-    public void setMyState(int newState) throws RemoteException {
-        myState = newState;
-    }
-
-    @Override
     public ArrayList<IRenderable> getElementArray() throws RemoteException {
         return elements;
     }
@@ -39,8 +23,6 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
     @Override
     public void addElement(IRenderable element) throws RemoteException {
         elements.add(element);
-        System.out.println("Element Added :)");
-        System.out.println("Total number of elements" + elements.size());
     }
 
     @Override
@@ -66,13 +48,11 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
     @Override
     public void addNewUser(String username) throws RemoteException {
         connectedUsers.add(username);
-        System.out.println(connectedUsers);
     }
 
     @Override
     public void removeUser(String username) throws RemoteException {
         connectedUsers.remove(username);
-        System.out.println(connectedUsers);
     }
 
     @Override

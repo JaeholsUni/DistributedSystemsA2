@@ -75,20 +75,6 @@ public class whiteboard extends JPanel implements ActionListener {
         add(topControlPanel, BorderLayout.NORTH);
         add(chatWindow, BorderLayout.WEST);
 
-        // Create a button to reset the list of points
-        resetButton = new JButton("Reset Points");
-        resetButton.addActionListener(e -> {
-            try {
-                localState.clearElements();
-            } catch (Exception exception) {
-                RMIDeadShutdown();
-            }
-
-            repaint();
-        });
-        add(resetButton, BorderLayout.SOUTH);
-
-
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {

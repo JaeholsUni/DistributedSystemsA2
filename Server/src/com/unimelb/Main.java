@@ -11,13 +11,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String hostname = "localhost";
-        String serviceName = "StateService";
+        String serviceName = "WhiteboardStateService";
 
         try {
             IWhiteboardState state = new WhiteboardStateServer();
-            LocateRegistry.createRegistry(4444);
-            Registry registry = LocateRegistry.getRegistry(hostname,4444);
+            LocateRegistry.createRegistry(Integer.parseInt(args[1]));
+            Registry registry = LocateRegistry.getRegistry(args[0],Integer.parseInt(args[1]));
             registry.bind(serviceName, state);
 
             JFrame frame = new JFrame("Whiteboard Host");
@@ -25,12 +24,10 @@ public class Main {
             whiteboardServerPanel serverPanel = new whiteboardServerPanel((WhiteboardStateServer) state);
             frame.add(serverPanel);
 
-            //frame.setSize(1280, 720);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
 
-            System.out.println("RMI ready to go");
 
         } catch (Exception e) {
             e.printStackTrace();
