@@ -29,4 +29,6 @@ public interface IWhiteboardState extends Remote {
     public boolean isOnBlackList(String username) throws RemoteException;
 
     public void heartbeat() throws RemoteException;
+
+    public boolean checkPassword(String password) throws RemoteException;
 }

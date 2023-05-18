@@ -11,7 +11,8 @@ public class Main {
         String serviceName = "WhiteboardStateService";
 
         try {
-            IWhiteboardState state = new WhiteboardStateServer();
+            String password = enterPassword();
+            IWhiteboardState state = new WhiteboardStateServer(password);
             LocateRegistry.createRegistry(Integer.parseInt(args[1]));
             Registry registry = LocateRegistry.getRegistry(args[0],Integer.parseInt(args[1]));
             registry.bind(serviceName, state);
@@ -29,5 +30,9 @@ public class Main {
             JOptionPane.showMessageDialog(null, "Cannot host ensure valid params", "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
+    }
+
+    private static String enterPassword() {
+        return JOptionPane.showInputDialog(null, "Please enter password \n Leave blank for no password");
     }
 }

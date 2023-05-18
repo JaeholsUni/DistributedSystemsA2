@@ -30,8 +30,10 @@ public class whiteboard extends JPanel implements ActionListener {
 
 
     public whiteboard(IWhiteboardState whiteboardState) {
-        username = usernamePopup();
+        String[] usernamePassword = usernamePasswordInput();
+        username = usernamePassword[0];
         try {
+            checkPassword(whiteboardState, usernamePassword[1]);
             checkBan(whiteboardState);
             connectedUserList = whiteboardState.getConnectedUsers();
         } catch (Exception exception) {
@@ -237,8 +239,26 @@ public class whiteboard extends JPanel implements ActionListener {
         }
     }
 
-    private String usernamePopup() {
-        return JOptionPane.showInputDialog(this, "Please enter your username to connect:");
+    private String[] usernamePasswordInput() {
+        JTextField usernameField = new JTextField(20);
+        JTextField passwordField = new JTextField(20);
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Username:"));
+        panel.add(usernameField);
+        panel.add(new JLabel("Password:"));
+        panel.add(new JLabel("Blank for no password"));
+        panel.add(passwordField);
+
+        int result = JOptionPane.showOptionDialog(null, panel, "Input Username & Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+        if (result == JOptionPane.OK_OPTION) {
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+            return new String[]{username, password};
+        }
+
+        return null;
     }
 
     public String getUsername() {
@@ -268,6 +288,18 @@ public class whiteboard extends JPanel implements ActionListener {
                 }
                 JOptionPane.showMessageDialog(this, "You have been removed from this server");
 
+                System.exit(0);
+            }
+        } catch (Exception e) {
+            timer.stop();
+            RMIDeadShutdown();
+        }
+    }
+
+    private void checkPassword(IWhiteboardState state, String password) {
+        try {
+            if (!state.checkPassword(password)){
+                JOptionPane.showMessageDialog(this, "Incorrect Password");
                 System.exit(0);
             }
         } catch (Exception e) {
