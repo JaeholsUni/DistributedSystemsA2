@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class whiteboardStateExtractor {
 
-    public static void extractWhiteboardCSV(ArrayList<IRenderable> elements, String whiteboardTitle){
+    public static void extractWhiteboardCSV(ArrayList<IRenderable> elements){
 
         StringBuilder dataForCSV = new StringBuilder();
         for (int i = 0; i < elements.size(); i++) {
@@ -55,10 +55,9 @@ public class whiteboardStateExtractor {
                 writer.write(dataForCSV.toString());
                 System.out.println("CSV data has been successfully extracted to " + outputPath);
             } catch (IOException e) {
-                System.err.println("Failed to write CSV data to the file: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Failed to write to file", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            System.out.println("File selection canceled by the user.");
         }
     }
 
