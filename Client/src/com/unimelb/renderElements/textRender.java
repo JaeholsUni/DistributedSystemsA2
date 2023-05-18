@@ -83,4 +83,8 @@ public class textRender implements IRenderable {
 
         g2d.drawString(renderString, points.get(0).x, points.get(0).y);
     }
+
+    public String getTextString() {
+        return textString;
+    }
 }

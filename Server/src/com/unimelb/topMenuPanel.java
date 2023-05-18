@@ -23,6 +23,11 @@ public class topMenuPanel extends JPanel {
 
         saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
+            try {
+                whiteboardStateExtractor.extractWhiteboardCSV(state.getElementArray(), "Whiteboard");
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         });
 
         loadButton = new JButton("Load");
