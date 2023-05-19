@@ -1,5 +1,7 @@
 /*
- *
+ * Distributed Systems Assignment 2
+ * James Hollingsworth - 915178
+ * jameswh@iinet.net.au
  *
  * The code in this class is heavily informed on the code found at the below website
  * https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/#41-java-pbkdf2withhmacsha1-hash-example
