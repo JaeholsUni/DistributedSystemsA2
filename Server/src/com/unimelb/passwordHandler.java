@@ -24,7 +24,7 @@ public class passwordHandler {
             byte[] hash = factory.generateSecret(spec).getEncoded();
             return hash;
         } catch (Exception e) {
-            System.out.println("No such algorithm");
+
         }
 
         return null;

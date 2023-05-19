@@ -85,7 +85,6 @@ public class whiteboard extends JPanel implements ActionListener {
                 requestFocusInWindow();
                 if (evt.getButton() == MouseEvent.BUTTON1) {
                     if (!typing) {
-                        // Start drawing a line
                         switch (drawTypes.getSelectedType()) {
                             case "Freehand":
                                 tempDrawingItem = new freehandLine(new ArrayList<>(), colours.getColour(), strokePanel.getSelectedWidth(), STROKE);

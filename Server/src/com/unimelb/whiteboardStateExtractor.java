@@ -53,7 +53,6 @@ public class whiteboardStateExtractor {
 
             try (FileWriter writer = new FileWriter(outputPath)) {
                 writer.write(dataForCSV.toString());
-                System.out.println("CSV data has been successfully extracted to " + outputPath);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Failed to write to file", "Error", JOptionPane.ERROR_MESSAGE);
             }
