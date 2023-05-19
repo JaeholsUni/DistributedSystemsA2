@@ -1,3 +1,10 @@
+/*
+ *
+ *
+ * The code in this class is heavily informed on the code found at the below website
+ * https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/#41-java-pbkdf2withhmacsha1-hash-example
+ * */
+
 package com.unimelb;
 
 import javax.crypto.SecretKeyFactory;

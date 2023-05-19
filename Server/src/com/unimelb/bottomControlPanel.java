@@ -1,7 +1,6 @@
 package com.unimelb;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class bottomControlPanel extends JPanel {
 

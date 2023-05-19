@@ -8,18 +8,19 @@ import java.util.ArrayList;
 
 public interface IRenderable extends Serializable {
 
-    public ArrayList<Point> getPoints();
+    ArrayList<Point> getPoints();
 
-    public void updateDrawing(Point newPoint);
+    void updateDrawing(Point newPoint);
 
-    public Color getColor();
+    Color getColor();
 
-    public int getStrokeWidth();
+    int getStrokeWidth();
 
-    public renderTypes getType();
+    renderTypes getType();
 
-    public abstract void renderSelf(Graphics2D g2d);
+    void renderSelf(Graphics2D g2d);
 
-    public void addCharacter(Character c);
-    public void removeCharacter();
+    void addCharacter(Character c);
+
+    void removeCharacter();
 }

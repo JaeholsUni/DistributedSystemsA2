@@ -1,3 +1,4 @@
+
 package com.unimelb;
 
 import com.unimelb.renderElements.*;
@@ -18,12 +19,16 @@ public class whiteboardStateExtractor {
 
         StringBuilder dataForCSV = new StringBuilder();
         for (int i = 0; i < elements.size(); i++) {
+
             IRenderable tempRenderable = elements.get(i);
             dataForCSV.append(tempRenderable.getType()).append(",");
+
             Color tempCol = tempRenderable.getColor();
             dataForCSV.append(String.format("#%02x%02x%02x", tempCol.getRed(), tempCol.getGreen(), tempCol.getBlue())).append(",");
+
             dataForCSV.append(tempRenderable.getStrokeWidth()).append(",");
             ArrayList<Point> tempPointsArray = tempRenderable.getPoints();
+
             if (tempRenderable.getType() == renderTypes.TEXT) {
                 dataForCSV.append(((textRender) tempRenderable).getTextString()).append(",");
             }

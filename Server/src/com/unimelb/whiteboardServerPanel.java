@@ -5,15 +5,12 @@ import java.awt.*;
 
 public class whiteboardServerPanel extends JPanel {
 
-    private WhiteboardStateServer serverLocalState;
-
     private topMenuPanel topMenuPanel;
     private connectedUserPanel connectedUserPanel;
     private bannedUserPanel bannedUserPanel;
     private bottomControlPanel bottomMenuPanel;
 
     public whiteboardServerPanel(WhiteboardStateServer whiteboardState) {
-        serverLocalState = whiteboardState;
 
         topMenuPanel = new topMenuPanel(whiteboardState);
         bottomMenuPanel = new bottomControlPanel(whiteboardState);

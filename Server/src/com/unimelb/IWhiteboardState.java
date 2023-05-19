@@ -6,29 +6,29 @@ import java.util.ArrayList;
 
 public interface IWhiteboardState extends Remote {
 
-    public ArrayList<IRenderable> getElementArray() throws RemoteException;
+    ArrayList<IRenderable> getElementArray() throws RemoteException;
 
-    public void addElement(IRenderable element) throws RemoteException;
+    void addElement(IRenderable element) throws RemoteException;
 
-    public void clearElements() throws RemoteException;
+    void clearElements() throws RemoteException;
 
-    public ArrayList<String> getChatList() throws RemoteException;
+    ArrayList<String> getChatList() throws RemoteException;
 
-    public void addNewChatMessage(String newChat) throws RemoteException;
+    void addNewChatMessage(String newChat) throws RemoteException;
 
-    public ArrayList<String> getConnectedUsers() throws RemoteException;
+    ArrayList<String> getConnectedUsers() throws RemoteException;
 
-    public void addNewUser(String username) throws RemoteException;
+    void addNewUser(String username) throws RemoteException;
 
-    public void removeUser(String username) throws RemoteException;
+    void removeUser(String username) throws RemoteException;
 
-    public void banUser(String username) throws RemoteException;
+    void banUser(String username) throws RemoteException;
 
-    public void unbanUser(String username) throws RemoteException;
+    void unbanUser(String username) throws RemoteException;
 
-    public boolean isOnBlackList(String username) throws RemoteException;
+    boolean isOnBlackList(String username) throws RemoteException;
 
-    public void heartbeat() throws RemoteException;
+    void heartbeat() throws RemoteException;
 
-    public boolean checkPassword(String password) throws RemoteException;
+    boolean checkPassword(String password) throws RemoteException;
 }
