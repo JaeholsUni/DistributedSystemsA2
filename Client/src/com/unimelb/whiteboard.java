@@ -19,7 +19,6 @@ public class whiteboard extends JPanel implements ActionListener {
     private boolean drawing;
     private boolean typing;
     private Timer timer;
-    private ArrayList<String> testArray = new ArrayList<>();
     private ArrayList<String> connectedUserList;
     private String username;
 
@@ -32,6 +31,7 @@ public class whiteboard extends JPanel implements ActionListener {
     public whiteboard(IWhiteboardState whiteboardState) {
         String[] usernamePassword = usernamePasswordInput();
         username = usernamePassword[0];
+
         try {
             checkPassword(whiteboardState, usernamePassword[1]);
             checkBan(whiteboardState);
@@ -57,7 +57,6 @@ public class whiteboard extends JPanel implements ActionListener {
         typing = false;
         this.localState = whiteboardState;
         this.setFocusable(true);
-
 
         setBackground(Color.WHITE);
         setLayout(new BorderLayout());
