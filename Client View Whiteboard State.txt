@@ -1,0 +1,53 @@
+title Client View Whiteboard State
+
+participant "Whiteboard" as wboard
+participant "Renderable Element (circle)" as el
+participant "Temporary Drawing Element (line)" as temp
+participant "Whiteboard Graphics" as graphic
+
+participant "Whiteboard State (Remote)" as wstate
+
+wboard->wboard:actionPerformed(actionEvent) \n//performed every 60 seconds
+activate wboard
+wboard->wstate: other communication not related to element rendering
+wboard->wboard: repaint()
+activate wboard
+wboard->wboard:paintComponent(Graphics)
+activate wboard
+wboard->graphic:setRenderingHint(antialiasing, on)
+alt try
+wboard->wstate:getElementArray()
+activate wstate
+wboard<--wstate:elements
+deactivate wstate
+wboard->wboard:renderElements(Graphics, Elements)
+activate wboard
+loop for each render element
+wboard->el:renderSelf(Graphics)
+activate el
+el->graphic:setColour(myColor)
+el->graphic:setStroke(myStroke)
+el->graphic:draw(Ellipse2D(x, y, size, size)
+deactivate el
+end 
+deactivate wboard
+wboard->temp:renderSelf(Graphics)
+activate temp
+temp->graphic:setColour(myColor)
+temp->graphic:setStroke(myStroke)
+temp->graphic:draw(Line2D(p1,p2))
+deactivate temp
+wboard->graphic:setStroke(3) \n//This ensures stroke length doesnt\ncarry over from elements 
+deactivate wboard
+wboard->graphic: Repainting of all other GUI elements
+deactivate wboard
+deactivate wboard
+else catch
+wboard->wboard: timper.stop()
+wboard->wboard: RMIDeadShutdown()
+activate wboard
+wboard->wboard: JOptionsPane.showMessage(RMI dead message)
+wboard->wboard:System.exit(0)
+deactivate wboard
+
+end

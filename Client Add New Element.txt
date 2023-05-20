@@ -1,0 +1,29 @@
+title Client Add New Element
+
+actor "User" as user
+
+participant "Whiteboard" as wboard
+participant "Temporary Drawn Element (Stroke)" as temp
+
+participant "Whiteboard State (Remote)" as wstate
+
+
+wboard-->*temp: Owns
+user->wboard:mouseReleased(event)
+activate wboard
+wboard->temp:updateDrawing(evt.getPoint())
+wboard->wboard:addRenderElementToRemote(tempDrawingItem)
+activate wboard
+alt try
+wboard->wstate:addElement(new freehandLine(tempDrawingItem))
+deactivate wboard
+wboard->temp: set to null
+deactivate wboard
+else  catch
+wboard->wboard: timper.stop()
+wboard->wboard: RMIDeadShutdown()
+activate wboard
+wboard->wboard: JOptionsPane.showMessage(RMI dead message)
+wboard->wboard:System.exit(0)
+deactivate wboard
+end
