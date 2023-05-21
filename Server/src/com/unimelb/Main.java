@@ -19,8 +19,8 @@ public class Main {
         try {
             String password = enterPassword();
             IWhiteboardState state = new WhiteboardStateServer(password);
-            LocateRegistry.createRegistry(Integer.parseInt(args[1]));
-            Registry registry = LocateRegistry.getRegistry(args[0],Integer.parseInt(args[1]));
+            LocateRegistry.createRegistry(Integer.parseInt(args[0]));
+            Registry registry = LocateRegistry.getRegistry("localhost",Integer.parseInt(args[0]));
             registry.bind(serviceName, state);
 
             JFrame frame = new JFrame("Whiteboard Host");
