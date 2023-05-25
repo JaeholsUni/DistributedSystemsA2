@@ -72,8 +72,10 @@ public class WhiteboardStateServer extends UnicastRemoteObject implements IWhite
 
     @Override
     public void banUser(String username) throws RemoteException {
-        blackList.add(username);
-        connectedUsers.remove(username);
+        if (!getBlackList().contains(username)){
+            blackList.add(username);
+            connectedUsers.remove(username);
+        }
     }
 
     @Override
